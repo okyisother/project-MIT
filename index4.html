@@ -1,0 +1,78 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1">
+		<title>bulma</title>
+		<link rel="stylesheet" href="node_modules/bulma/css/bulma.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css">
+		<script src="https://unpkg.com/vue"></script>
+	</head>
+	<body>
+		
+			<div id="myapp">
+				<tabs>
+					<tab-item name="Tab 1" selected = true>Bagian 1</tab-item>
+					<tab-item name="Tab 2">Bagian 2</tab-item>
+					<tab-item name="Tab 3">Bagian 3</tab-item>
+				</tabs>
+			</div>
+		
+
+		<script type="text/javascript">
+
+		Vue.component('tab-item',{
+			template:
+			`
+			<div v-show="isActive"><slot></slot></div>
+			`,
+			props:{
+				name:{required:true},
+				selected:{default:false}
+			},
+			data(){
+				return {
+						isActive:this.selected
+					}
+			},
+			computed:{
+					href(){
+						return '#'+this.name.toLowerCase().replace(/ /g,'-');
+					}
+				}
+		})
+
+			Vue.component('tabs',{
+				template:
+				`
+				<div>
+				<div class="tabs">
+				  <ul>
+				    <li v-for="tab in tabs" :class="{'is-active':tab.isActive}">
+				    	<a :href="tab.href" @click="setActive(tab)">{{tab.name}}</a>
+				    </li>
+				  </ul>
+				</div>
+				<div class="tabs-details"><slot></slot></div>
+				</div>
+				`,
+				data(){
+					return {tabs:[]}
+				},
+				created(){
+					this.tabs = this.$children;
+				},
+				methods:{
+					setActive(selectedTab){
+						this.tabs.forEach(tab=>{
+							tab.isActive = (tab.name == selectedTab.name);
+						})
+					}
+				}
+			})
+
+			var app = new Vue({
+				el:'#myapp'
+			})
+		</script>
+	</body>
+	</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<title>VUE JS</title>
+	<script src="https://unpkg.com/vue"></script>
+	<style type="text/css">
+	.is-loading
+	{
+		background: #000;
+	}
+	</style>
+</head>
+<body>
+	<div id="myapp">
+		<h1>Hello... {{ reverseMessage }}</h1>
+		<input v-model="name">
+		<p>Anda Menulis:{{name}}</p>
+		<ul>
+			<li v-for="n in names" v-text="n" ></li>
+		</ul>
+		<input v-model="nama" v-if="isShow">
+		<button @click="addItems" :title="title" :class="{'is-loading':isLoading,'is-loading2':isLoading2}">ADD</button>
+	</div>
+	<!-- JS -->
+	<script type="text/javascript">
+	
+	var app = new Vue({
+		el: '#myapp',
+		data:{
+			message: ', hellow from vue..',
+			name:'',
+			nama:'',
+			names:['adi','Ade','Adu'],
+			title:'Add DAta',
+			isLoading:false,
+			isLoading2:true,
+			isShow:true
+		},
+		computed:{
+			reverseMessage: function(){
+				return this.message.split('').reverse().join('');
+			}
+		},
+		 methods: {
+		 	addItems(){
+		 		this.names.push(this.nama);
+		 		this.isShow = false;
+		 		this.isLoading = true;
+		 	}
+		 }
+	})
+
+
+	
+	</script>
+	<!-- END JS -->
+</body>
+</html>
+
